@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> </title>
+  </head>
+  <body>
+    <header>
+      <h1>bienvenido {{usuarios.nombre}} {{usuarios.apellido}}</h1>
+      <a href="{{url_for('nuevo_viaje')}}">Nuevo viaje</a>
+    </header>
+    <section>
+      <table border="1">
+        <tr>
+          <th>id</th>
+          <th>Nombre completo</th>
+          <th>E-email</th>
+          <th>Fecha creacíon</th>
+          <th>Acciones</th>
+        </tr>
+        <tbody>
+          {% for usuario in usuarios %}
+          <tr>
+            <td>{{usuario.id}}</td>
+            <td>{{usuario.nombre}} {{usuario.apellido}}</td>
+            
+
+            <td>{{usuario.email}}</td>
+
+            <td>{{usuario.created_at}}</td>
+            <td>
+              <a href="{{url_for('ver_usuario',usuario_id=usuario.id)}}">ver</a>
+              <a href="{{url_for('editar', usuario_id=usuario.id)}}">editar</a>
+              <a href="{{url_for('borrar',usuario_id=usuario.id)}}">borrar</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+  </body>
+</html>

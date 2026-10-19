@@ -24,13 +24,13 @@ class Usuario:
     def save(cls, data):
         query = "INSERT INTO usuarios (nombre, apellido, email, password, created_at, updated_at) VALUES (%(nombre)s, %(apellido)s, %(email)s,%(password)s, NOW(), NOW())"
 
-        return connectToMySQL('cinepedia').query_db(query, data)
+        return connectToMySQL('viajero_frecuente').query_db(query, data)
 
     #metodo para ver todos los registros
     @classmethod
     def get_all(cls):
         query = "SELECT * FROM usuarios"
-        usuarios_en_db = connectToMySQL('cinepedia').query_db(query)
+        usuarios_en_db = connectToMySQL('viajero_frecuente').query_db(query)
         #lista vacia de usuarios se llena con clase usuarios
         usuarios = []
         #por cada usuario que encuentre en usuarios_en_db
@@ -57,14 +57,14 @@ class Usuario:
     def update(cls, datos):
         query = "UPDATE usuarios SET nombre=%(nombre)s, apellido=%(apellido)s, email=%(email)s, password=%(password)s WHERE id = %(id)s;"
 
-        return connectToMySQL('cinepedia').query_db(query, datos)
+        return connectToMySQL('viajero_frecuente').query_db(query, datos)
     
 
     #metodo para eliminar registro
     @classmethod
     def delete(cls, data):
         query = "DELETE FROM usuarios WHERE id = %(id)s;"
-        return connectToMySQL('cinepedia').query_db(query, data)
+        return connectToMySQL('viajero_frecuente').query_db(query, data)
         
 
 
