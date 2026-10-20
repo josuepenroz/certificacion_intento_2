@@ -18,13 +18,13 @@ USE `viajero_frecuente` ;
 -- Table `viajero_frecuente`.`usuarios`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `viajero_frecuente`.`usuarios` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(255) NULL,
   `apellido` VARCHAR(255) NULL,
-  `email` VARCHAR(455) NULL,
-  `password` VARCHAR(455) NULL,
-  `updated_at` DATETIME NULL,
+  `email` VARCHAR(255) NULL,
+  `password` VARCHAR(255) NULL,
   `created_at` DATETIME NULL,
+  `updated_at` DATETIME NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -33,34 +33,19 @@ ENGINE = InnoDB;
 -- Table `viajero_frecuente`.`viajes`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `viajero_frecuente`.`viajes` (
-  `id` INT NOT NULL,
-  `destino` VARCHAR(455) NULL,
-  `fecha_inicio` DATETIME NULL,
-  `fecha_fin` DATETIME NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `destino` VARCHAR(255) NULL,
+  `fecha_inicio` DATE NULL,
+  `fecha_fin` DATE NULL,
   `itinerario` TEXT NULL,
   `created_at` DATETIME NULL,
   `updated_at` DATETIME NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `viajero_frecuente`.`comentarios`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `viajero_frecuente`.`comentarios` (
   `usuario_id` INT NOT NULL,
-  `viaje_id` INT NOT NULL,
-  PRIMARY KEY (`usuario_id`, `viaje_id`),
-  INDEX `fk_usuarios_has_viajes_viajes1_idx` (`viaje_id` ASC) VISIBLE,
-  INDEX `fk_usuarios_has_viajes_usuarios_idx` (`usuario_id` ASC) VISIBLE,
-  CONSTRAINT `fk_usuarios_has_viajes_usuarios`
+  PRIMARY KEY (`id`),
+  INDEX `fk_viajes_usuarios_idx` (`usuario_id` ASC) VISIBLE,
+  CONSTRAINT `fk_viajes_usuarios`
     FOREIGN KEY (`usuario_id`)
     REFERENCES `viajero_frecuente`.`usuarios` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_usuarios_has_viajes_viajes1`
-    FOREIGN KEY (`viaje_id`)
-    REFERENCES `viajero_frecuente`.`viajes` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

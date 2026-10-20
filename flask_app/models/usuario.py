@@ -108,3 +108,11 @@ class Usuario:
             es_valido = False
 
         return es_valido
+    
+    @classmethod
+    def get_by_id(cls,datos):
+        query = "SELECT * FROM usuarios WHERE id = %(id)s;"
+        resultado = connectToMySQL('viajero_frecuente').query_db(query,datos)
+        if not resultado: 
+            return None
+        return cls(resultado[0])

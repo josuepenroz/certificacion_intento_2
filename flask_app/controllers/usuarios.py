@@ -26,33 +26,36 @@ def  crear_usuario():
         'password':pass_hasheado
       }
     resultado = Usuario.save(usuario)
-    
+    print("id devuelto", resultado)
     if not resultado: 
         flash("no e pudo registrar")
         return redirect("/")
+    
     session["usuario_id"] = resultado
     return redirect("/dashboard")
-
 @app.route("/iniciar_sesion", methods=["POST"])
 def iniciar_sesion():
+
     datos = {
-        "email":request.form["email_inicio_sesion"]
+        "email": request.form["email_inicio_sesion"]
     }
+
     usuario = Usuario.get_by_email(datos)
-    print("encontre al usuario", datos)
-    
+
     if not usuario:
-        flash("correo &/o contraseña incorrecta")
+        flash("correo y/o contraseña incorrecta")
         return redirect("/")
-    
-    if bcrypt.check_password_hash(
+
+    resultado = bcrypt.check_password_hash(
         usuario.password,
         request.form["password_inicio_sesion"]
-    ):
+    )
+
+    if resultado:
         session["usuario_id"] = usuario.id
         return redirect("/dashboard")
-    else:
-        flash("Correo i o contraseña incorrectos")
+
+    flash("Correo o contraseña incorrectos")
     return redirect("/")
 
 @app.route("/dashboard")
