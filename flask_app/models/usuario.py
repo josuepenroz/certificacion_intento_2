@@ -2,10 +2,10 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 import re   # Importamos expresiones regulares
 from flask import flash
-
+from flask_bcrypt import Bcrypt
 # Objeto de expresión regular que usaremos para validar
 
-EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+.[a-zA-Z]+$')
+EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
 class Usuario:
 
@@ -42,11 +42,10 @@ class Usuario:
         return usuarios
 
 
-    #metodo para ver 1 registro
     @classmethod
     def get_one(cls,data):
         query = "SELECT * FROM usuarios WHERE id = %(id)s;"
-        usuario_en_db = connectToMySQL('cinepedia').query_db(query,data)
+        usuario_en_db = connectToMySQL('viajero_frecuente').query_db(query,data)
         print("USUARIO EN DB",usuario_en_db)
         if not usuario_en_db:
             return None
@@ -72,7 +71,7 @@ class Usuario:
     def get_by_email(cls, datos):
         query = "SELECT * FROM usuarios WHERE email=%(email)s"
     
-        usuario_en_db = connectToMySQL('cinepedia').query_db(query,datos)
+        usuario_en_db = connectToMySQL('viajero_frecuente').query_db(query,datos)
        
         print("USUARIO EN DB",usuario_en_db)
         if not usuario_en_db:
@@ -96,10 +95,10 @@ class Usuario:
             flash("El apellido debe tener al menos 2 caracteres", "registro")
             es_valido = False
         
-            if not EMAIL_REGEX.match(formulario['email']):
+        if not EMAIL_REGEX.match(formulario['email']):
                 flash("El email no tiene un formato válido", "registro")
                 es_valido = False
-            elif Usuario.get_by_email({'email': formulario['email']}):
+        elif Usuario.get_by_email({'email': formulario['email']}):
                 print(Usuario.get_by_email({'email': formulario['email']}))
                 flash("Ya existe una cuenta con ese email", "registro")
                 es_valido = False
